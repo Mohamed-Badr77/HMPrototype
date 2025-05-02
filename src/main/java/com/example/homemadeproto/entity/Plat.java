@@ -1,4 +1,4 @@
-package com.example.homemadeproto.model;
+package com.example.homemadeproto.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

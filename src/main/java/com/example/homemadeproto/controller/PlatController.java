@@ -1,32 +1,32 @@
 package com.example.homemadeproto.controller;
 
-
-import com.example.homemadeproto.model.Plat;
+import com.example.homemadeproto.entity.Plat;
+import com.example.homemadeproto.service.PlatService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.example.homemadeproto.repository.PlatRepository;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/dishes")
 public class PlatController {
-    private final PlatRepository platRepository;
 
-    public PlatController(PlatRepository platRepository) {
-        this.platRepository = platRepository;
+    private final PlatService platService;
+
+    public PlatController(PlatService platService) {
+        this.platService = platService;
     }
 
     @GetMapping
     public String listPlats(Model model) {
-        List<Plat> plats = platRepository.findAll();
-        model.addAttribute("dishes",platRepository.findAll());
+        List<Plat> plats = platService.getAllDishes();
+        model.addAttribute("dishes", plats);
         return "dishes";
-
     }
+
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("plat", new Plat());
@@ -35,41 +35,42 @@ public class PlatController {
 
     @PostMapping("/add")
     public String addPlat(@Valid @ModelAttribute("plat") Plat plat, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "add-dish";
         }
-        platRepository.save(plat);
+        platService.saveDish(plat);
         return "redirect:/dishes";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Plat plat = platRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid dish ID: " + id));
+        Plat plat = platService.getDishById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid dish ID: " + id));
         model.addAttribute("plat", plat);
         return "edit-dish";
     }
 
     @PostMapping("/edit/{id}")
-    public String updatePlat(@PathVariable Long id,@Valid @ModelAttribute("plat") Plat plat, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+    public String updatePlat(@PathVariable Long id, @Valid @ModelAttribute("plat") Plat plat, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "edit-dish";
         }
         plat.setId(id);
-        platRepository.save(plat);
+        platService.saveDish(plat);
         return "redirect:/dishes";
     }
 
     @GetMapping("/delete/{id}")
     public String showDeleteConfirmation(@PathVariable Long id, Model model) {
-        Plat plat = platRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid dish ID: " + id));
+        Plat plat = platService.getDishById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid dish ID: " + id));
         model.addAttribute("plat", plat);
         return "delete-dish";
     }
 
     @PostMapping("/delete/{id}")
     public String deletePlat(@PathVariable Long id) {
-        platRepository.deleteById(id);
+        platService.deleteDish(id);
         return "redirect:/dishes";
     }
-
 }
