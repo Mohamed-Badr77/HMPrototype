@@ -3,6 +3,7 @@ package com.example.homemadeproto.controller;
 import com.example.homemadeproto.entity.Plat;
 import com.example.homemadeproto.service.PlatService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ public class PlatController {
 
     private final PlatService platService;
 
+    @Autowired
     public PlatController(PlatService platService) {
         this.platService = platService;
     }

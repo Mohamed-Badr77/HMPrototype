@@ -12,7 +12,6 @@ public class Plat {
 
     @NotBlank(message = "Name is required")
     @Size(min=2,message="Name must have at least 2 characters")
-
     private String dishName;
 
     public float getDishRating() {
@@ -50,11 +49,9 @@ public class Plat {
     private float dishRating;
 
     @NotNull(message = "Prix requis")
-
     private float price;
 
     @Min(value = 1, message = "Prep time must at least be 1 minute")
-
     private int prepTimeMinutes;
 
     public Plat() {}

@@ -2,6 +2,7 @@ package com.example.homemadeproto.service;
 
 import com.example.homemadeproto.DAO.PlatRepository;
 import com.example.homemadeproto.entity.Plat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ public class PlatServiceImpl implements PlatService {
 
     private final PlatRepository platRepository;
 
+    @Autowired
     public PlatServiceImpl(PlatRepository platRepository) {
         this.platRepository = platRepository;
     }
+
 
     @Override
     public List<Plat> getAllDishes() {
