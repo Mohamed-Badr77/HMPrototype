@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Dish</title>
+</head>
+<body>
+<h1>Add a New Dish</h1>
+
+<form th:action="@{/dishes/add}" th:object="${plat}" method="post">
+    <label>Name: <input type="text" th:field="*{dishName}" /></label><br>
+    <label>Preparation Time (in minutes): <input type="number" step="1" th:field="*{prepTimeMinutes}" /></label><br>
+    <label>Price: <input type="number" step="0.01" th:field="*{price}" /></label><br>
+    <button type="submit">Add Dish</button>
+</form>
+
+<a href="/dishes">Back to list</a>
+</body>
+</html>

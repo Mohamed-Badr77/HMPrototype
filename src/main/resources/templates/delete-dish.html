@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Delete Dish</title></head>
+<body>
+<h2>Are you sure you want to delete this dish?</h2>
+<p><strong>Name:</strong> <span th:text="${plat.dishName}"></span></p>
+<p><strong>Rating:</strong> <span th:text="${plat.dishRating}"></span></p>
+<p><strong>Preparation Time:</strong> <span th:text="${plat.prepTimeMinutes}"></span></p>
+<p><strong>Price:</strong> <span th:text="${plat.price}"></span></p>
+<form th:action="@{'/dishes/delete/' + ${plat.id}}" method="post">
+    <button type="submit">Yes, Delete</button>
+    <a href="/dishes">Cancel</a>
+</form>
+</body>
+</html>
