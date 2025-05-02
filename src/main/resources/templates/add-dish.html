@@ -7,9 +7,15 @@
 <h1>Add a New Dish</h1>
 
 <form th:action="@{/dishes/add}" th:object="${plat}" method="post">
-    <label>Name: <input type="text" th:field="*{dishName}" /></label><br>
-    <label>Preparation Time (in minutes): <input type="number" step="1" th:field="*{prepTimeMinutes}" /></label><br>
-    <label>Price: <input type="number" step="0.01" th:field="*{price}" /></label><br>
+    <label>Name: </label>
+    <input type="text" th:field="*{dishName}" />
+    <div th:if="${#fields.hasErrors('dishName')}" th:errors="*{dishName}" class="error-bubble"></div><br>
+    <label>Preparation Time (in minutes): </label>
+    <input type="number" step="1" th:field="*{prepTimeMinutes}" />
+    <div th:if="${#fields.hasErrors('prepTimeMinutes')}" th:errors="*{prepTimeMinutes}" class="error-bubble"></div><br>
+    <label>Price: </label>
+    <input type="number" step="0.01" th:field="*{price}" />
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-bubble"></div><br>
     <button type="submit">Add Dish</button>
 </form>
 

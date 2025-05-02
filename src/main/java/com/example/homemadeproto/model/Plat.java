@@ -13,56 +13,56 @@ public class Plat {
     @NotBlank(message = "Name is required")
     @Size(min=2,message="Name must have at least 2 characters")
 
-    private String DishName;
+    private String dishName;
 
     public float getDishRating() {
-        return DishRating;
+        return dishRating;
     }
 
     public void setDishRating(float dishRating) {
-        DishRating = dishRating;
+        this.dishRating = dishRating;
     }
 
     public String getDishName() {
-        return DishName;
+        return dishName;
     }
 
     public void setDishName(String dishName) {
-        DishName = dishName;
+        this.dishName = dishName;
     }
 
     public float getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(float price) {
-        Price = price;
+        this.price = price;
     }
 
     public int getPrepTimeMinutes() {
-        return PrepTimeMinutes;
+        return prepTimeMinutes;
     }
 
     public void setPrepTimeMinutes(int prepTimeMinutes) {
-        PrepTimeMinutes = prepTimeMinutes;
+        this.prepTimeMinutes = prepTimeMinutes;
     }
 
-    private float  DishRating;
+    private float dishRating;
 
     @NotNull(message = "Prix requis")
 
-    private float Price;
+    private float price;
 
     @Min(value = 1, message = "Prep time must at least be 1 minute")
 
-    private int PrepTimeMinutes;
+    private int prepTimeMinutes;
 
     public Plat() {}
 
     public Plat(String DishName, float DishRating, float Price, int PrepTimeMinutes) {
-        this.DishName = DishName;
-        this.DishRating = DishRating;
-        this.Price = Price;
+        this.dishName = DishName;
+        this.dishRating = DishRating;
+        this.price = Price;
     }
 
 
