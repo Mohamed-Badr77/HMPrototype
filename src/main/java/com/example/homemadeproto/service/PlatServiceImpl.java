@@ -1,6 +1,7 @@
 package com.example.homemadeproto.service;
 
 import com.example.homemadeproto.DAO.PlatRepository;
+import com.example.homemadeproto.DAO.ReviewDishRepository;
 import com.example.homemadeproto.entity.Plat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class PlatServiceImpl implements PlatService {
 
     private final PlatRepository platRepository;
+    private final ReviewDishRepository reviewDishRepository;
 
     @Autowired
-    public PlatServiceImpl(PlatRepository platRepository) {
+    public PlatServiceImpl(PlatRepository platRepository, ReviewDishRepository reviewDishRepository) {
         this.platRepository = platRepository;
+        this.reviewDishRepository = reviewDishRepository;
     }
 
 
@@ -37,5 +40,15 @@ public class PlatServiceImpl implements PlatService {
     @Override
     public void deleteDish(Long id) {
         platRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Plat> getAllDishesWithRatings() {
+        List<Plat> dishes = platRepository.findAll();
+        for (Plat dish : dishes) {
+            Double avg = reviewDishRepository.findAverageRatingByDish(dish);
+            dish.setDishRating(avg!=null ? avg.floatValue() : 0f);
+        }
+        return dishes;
     }
 }

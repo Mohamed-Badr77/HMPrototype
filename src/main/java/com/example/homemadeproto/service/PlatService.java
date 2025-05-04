@@ -6,7 +6,12 @@ import java.util.Optional;
 
 public interface PlatService {
     List<Plat> getAllDishes();
+
     Optional<Plat> getDishById(Long id);
+
     Plat saveDish(Plat plat);
+
     void deleteDish(Long id);
+
+    List<Plat> getAllDishesWithRatings();
 }

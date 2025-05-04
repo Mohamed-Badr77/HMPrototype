@@ -24,7 +24,7 @@ public class PlatController {
 
     @GetMapping
     public String listPlats(Model model) {
-        List<Plat> plats = platService.getAllDishes();
+        List<Plat> plats = platService.getAllDishesWithRatings();
         model.addAttribute("dishes", plats);
         return "dishes";
     }
