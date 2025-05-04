@@ -3,23 +3,29 @@ package com.example.homemadeproto.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int idA;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idA;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    private LocalDate creationDate;
     private float rating;
 
     @PrePersist
     protected void onCreate(){
-        this.creationDate = new Date();
+        this.creationDate = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        if(this.creationDate == null){
+            this.creationDate = LocalDate.now();
+        }
     }
 
     public Review() {}
@@ -35,19 +41,19 @@ public abstract class Review {
         this.rating = rating;
     }
 
-    public int getIdA() {
+    public long getIdA() {
         return idA;
     }
 
-    public void setIdA(int idA) {
+    public void setIdA(long idA) {
         this.idA = idA;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 }

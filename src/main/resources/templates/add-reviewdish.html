@@ -1,0 +1,24 @@
+<!-- templates/add-reviewdish.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Review</title>
+</head>
+<body>
+<h1>Add Review for Dish</h1>
+
+<form th:action="@{'/ReviewDish/dish/' + ${reviewDish.dish.id} + '/add'}" th:object="${reviewDish}" method="post">
+    <label for="rating">Rating:</label>
+    <input type="number" step="0.1" th:field="*{rating}" required min="0" max="5" id="rating"/>
+    <br/>
+    <label>Delivery Method:</label>
+    <input type="radio" th:field="*{delivery}" value="true" id="delivered" required/>
+    <label for="delivered">Delivered</label>
+    <input type="radio" th:field="*{delivery}" value="false" id="pickup" required/>
+    <label for="pickup">Pickup</label>
+    <button type="submit">Submit</button>
+</form>
+
+<a th:href="@{'/ReviewDish/dish/' + ${reviewDish.dish.id}}">Cancel</a>
+</body>
+</html>

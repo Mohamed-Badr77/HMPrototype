@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ReviewDishRepository extends JpaRepository<ReviewDish, Long> {
-    List<ReviewDish> findByDishId(long id);
+    List<ReviewDish> findByDishId(Long id);
     List<ReviewDish> findByDish(Plat plat);
+
+
 
 }

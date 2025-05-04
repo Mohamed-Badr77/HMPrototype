@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Review</title>
+</head>
+<body>
+<h1>Edit Review for <span th:text="${review.dish.dishName}">Dish Name</span></h1>
+
+<form th:action="@{'/ReviewDish/edit/' + ${review.idA}}" th:object="${review}" method="post">
+    <label>Rating:</label>
+    <input type="number" step="0.1" min="0" max="5" th:field="*{rating}" required />
+
+    <button type="submit">Update Review</button>
+</form>
+
+<a th:href="@{'/ReviewDish/dish/' + ${review.dish.id}}">Cancel</a>
+</body>
+</html>

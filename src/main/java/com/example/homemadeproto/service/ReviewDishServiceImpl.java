@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewDishServiceImpl implements ReviewDishService{
@@ -23,12 +24,16 @@ public class ReviewDishServiceImpl implements ReviewDishService{
     }
 
     @Override
-    public List<ReviewDish> findByDishId(int dishId) {
+    public List<ReviewDish> findByDishId(Long dishId) {
         return reviewDishRepository.findByDishId(dishId);
     }
 
     @Override
     public List<ReviewDish> findByDish(Plat plat) {
         return reviewDishRepository.findByDish(plat);
+    }
+    @Override
+    public Optional<ReviewDish> findReviewById(Long reviewid) {
+        return reviewDishRepository.findById(reviewid);
     }
 }

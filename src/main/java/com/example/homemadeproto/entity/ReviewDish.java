@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 @Entity
 public class ReviewDish extends Review{
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "dish_idp", nullable = false)
     private Plat dish;
 
     private Boolean Delivery;
