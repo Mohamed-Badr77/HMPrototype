@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cart</title>
+</head>
+<body>
+<h1>Your Cart</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Dish</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="elem : ${elements}">
+        <td th:text="${elem.plat.dishName}">Dish</td>
+        <td th:text="${elem.quantite}">Qty</td>
+        <td th:text="${elem.plat.price}">Price</td>
+        <td th:text="${elem.plat.price * elem.quantite}">Subtotal</td>
+        <form method="post" th:action="@{/panier/increment}" style="display:inline">
+            <input type="hidden" name="dishid" th:value="${elem.plat.id}"/>
+            <button type="submit">+</button>
+        </form>
+
+        <form method="post" th:action="@{/panier/decrement}" style="display:inline">
+            <input type="hidden" name="dishid" th:value="${elem.plat.id}"/>
+            <button type="submit">-</button>
+        </form>
+    </tr>
+    </tbody>
+</table>
+
+<h3 th:text="'Total: ' + ${total} + ' MAD'"></h3>
+
+<form method="post" th:action="@{/panier/validate}">
+    <button type="submit">Validate and Create Order</button>
+</form>
+
+</body>
+</html>

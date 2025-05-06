@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface CommandeService {
     List<Commande> getAllCommandes();
     Optional<Commande> getCommandeById(int idC);
-
+    Commande saveCommande(Commande commande);
 }

@@ -1,9 +1,6 @@
 package com.example.homemadeproto.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.beans.PropertyValues;
 
 
@@ -16,6 +13,7 @@ public class Panier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPanier;
 
+    @OneToMany(mappedBy = "panier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ElementPanier> elementsPanier;
 
     private float fraisLivraison;

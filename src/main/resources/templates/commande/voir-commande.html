@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Commande Details</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Détails de la commande</h1>
+
+<p><strong>Commande ID:</strong> <span th:text="${commande.idC}"></span></p>
+<p><strong>Date:</strong> <span th:text="${commande.dateCommande}"></span></p>
+<p><strong>Statut:</strong> <span th:text="${commande.statutCommande}"></span></p>
+<p><strong>Nombre d'articles:</strong> <span th:text="${commande.numberOfArticles}"></span></p>
+<p><strong>Prix total:</strong> <span th:text="${commande.totalPrice} + ' MAD'"></span></p>
+<p><strong>Adresse de livraison:</strong> <span th:text="${commande.adresseLivraison}"></span></p>
+<p><strong>Moyen de paiement:</strong> <span th:text="${commande.moyenPaiement}"></span></p>
+
+<h2>Plats commandés:</h2>
+<ul>
+    <li th:each="plat : ${commande.elements}">
+        <span th:text="${plat.plat.dishName}"></span> -
+        <span th:text="${plat.plat.price} + ' MAD'"></span>
+    </li>
+</ul>
+
+<a href="/panier">Retour au panier</a>
+</body>
+</html>

@@ -8,12 +8,34 @@ public class ElementPanier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEP;
 
+    @ManyToOne
+    @JoinColumn(name  = "plat_id")
     private Plat plat;
 
     private Integer Quantite;
 
     @ManyToOne
     private Commande commande;
+
+    @ManyToOne
+    @JoinColumn(name = "panier_id")
+    private Panier panier;
+
+    public Commande getCommande() {
+        return commande;
+    }
+
+    public void setCommande(Commande commande) {
+        this.commande = commande;
+    }
+
+    public Panier getPanier() {
+        return panier;
+    }
+
+    public void setPanier(Panier panier) {
+        this.panier = panier;
+    }
 
     public Plat getPlat() {
         return plat;

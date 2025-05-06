@@ -19,7 +19,7 @@ public class Commande {
     @Min(value = 1, message = "Must at least have one article")
     private int numberOfArticles;
 
-    private float totalPrice;
+    private double totalPrice;
     private LocalDate dateCommande;
 
     @Enumerated(EnumType.STRING)
@@ -72,11 +72,11 @@ public class Commande {
         this.numberOfArticles = numberOfArticles;
     }
 
-    public float getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
     public void setStatutCommande(StatutCommande statutCommande) {
@@ -103,7 +103,7 @@ public class Commande {
         return elements;
     }
 
-    public void setDishes(List<ElementPanier> elements) {
+    public void setElements(List<ElementPanier> elements) {
         this.elements = elements;
     }
     public MoyensPaiement getMoyenPaiement() {

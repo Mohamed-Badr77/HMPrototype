@@ -26,4 +26,9 @@ public class CommandeServiceImpl implements CommandeService {
     public Optional<Commande> getCommandeById(int idC) {
         return commandeRepository.findById(idC);
     }
+
+    @Override
+    public Commande saveCommande(Commande commande) {
+        return commandeRepository.save(commande);
+    }
 }
