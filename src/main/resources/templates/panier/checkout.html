@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+<h1>Confirm Your Order</h1>
+
+<form method="post" th:action="@{/panier/checkout}" th:object="${checkoutForm}">
+    <label>Delivery Address:</label><br>
+    <textarea th:field="*{adresseLivraison}" required></textarea><br><br>
+
+    <label>Payment Method:</label><br>
+    <select th:field="*{moyenPaiement}" required>
+        <option th:each="m : ${moyens}" th:value="${m}" th:text="${m}"></option>
+    </select><br><br>
+
+    <h3>Cart Summary:</h3>
+    <table border="1">
+        <tr>
+            <th>Dish</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+        <tr th:each="elem : ${elements}">
+            <td th:text="${elem.plat.dishName}"></td>
+            <td th:text="${elem.quantite}"></td>
+            <td th:text="${elem.plat.price * elem.quantite} + ' MAD'"></td>
+        </tr>
+    </table>
+
+    <p th:text="'Total: ' + ${total} + ' MAD'"></p>
+
+    <button type="submit">Place Order</button>
+</form>
+
+<form th:action="@{/panier}" method="get">
+    <button type="submit"> Back to Cart</button>
+</form>
+</body>
+</html>

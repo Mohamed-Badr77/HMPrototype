@@ -15,6 +15,7 @@ public class ElementPanier {
     private Integer Quantite;
 
     @ManyToOne
+    @JoinColumn(name = "commande_id")
     private Commande commande;
 
     @ManyToOne

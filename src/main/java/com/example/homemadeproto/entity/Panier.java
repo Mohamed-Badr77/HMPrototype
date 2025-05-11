@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.beans.PropertyValues;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ public class Panier {
     private Long idPanier;
 
     @OneToMany(mappedBy = "panier", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ElementPanier> elementsPanier;
+    private List<ElementPanier> elementsPanier = new ArrayList<>();
 
     private float fraisLivraison;
 

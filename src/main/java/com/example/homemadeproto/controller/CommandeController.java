@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/Commande")
+@RequestMapping("/commande")
 public class CommandeController {
     private final CommandeService commandeService;
     @Autowired

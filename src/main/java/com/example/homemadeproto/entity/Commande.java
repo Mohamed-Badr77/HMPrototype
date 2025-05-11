@@ -32,8 +32,7 @@ public class Commande {
     @Enumerated(EnumType.STRING)
     private MoyensPaiement moyenPaiement;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="commande_id")
+    @OneToMany(mappedBy ="commande", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ElementPanier> elements;
 
     @PrePersist

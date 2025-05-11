@@ -1,20 +1,19 @@
 package com.example.homemadeproto.controller;
 
 
+import com.example.homemadeproto.DTO.CheckoutForm;
 import com.example.homemadeproto.entity.Commande;
 import com.example.homemadeproto.entity.ElementPanier;
 import com.example.homemadeproto.entity.Panier;
 import com.example.homemadeproto.service.CommandeService;
 import com.example.homemadeproto.service.ElementPanierService;
 import com.example.homemadeproto.service.PanierService;
+import enums.MoyensPaiement;
 import enums.StatutCommande;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +44,37 @@ public class PanierController {
         model.addAttribute("cart", cart);
         return "panier/voir-panier";
     }
+    @PostMapping("/increment")
+    public String addToCart(@RequestParam("dishId") Long dishId) {
+        panierService.addOrIncrementDish(dishId);
+        return "redirect:/panier";
+    }
 
-    @PostMapping("/validate")
-    public String validerPanierCreerCommande() {
+    @PostMapping("/decrement")
+    public String decrementFromCart(@RequestParam("dishId") Long dishId) {
+        Panier cart = panierService.getActivePanier();
+        if(cart!= null){
+            panierService.decrementDish(dishId);
+        }
+        return "redirect:/panier";
+    }
+
+    @GetMapping("/checkout")
+    public String afficherCheckoutPanier(Model model) {
+        Panier cart = panierService.getActivePanier();
+        if(cart == null || cart.getElementsPanier() == null || cart.getElementsPanier().isEmpty()) {
+            return "redirect:/panier";
+        }
+
+        model.addAttribute("checkoutForm", new CheckoutForm());
+        model.addAttribute("elements", cart.getElementsPanier());
+        model.addAttribute("total", panierService.calculerTotalPanier(cart));
+        model.addAttribute("moyens", MoyensPaiement.values());
+        return "panier/checkout";
+    }
+
+    @PostMapping("/checkout")
+    public String traiterSoumissionCheckoutPanier(@ModelAttribute CheckoutForm checkoutForm) {
         Panier cart = panierService.getActivePanier();
         if(cart == null || cart.getElementsPanier() == null || cart.getElementsPanier().isEmpty()) {
             return "redirect:/panier";
@@ -57,23 +84,13 @@ public class PanierController {
         order.setElements(new ArrayList<>(cart.getElementsPanier()));
         order.setTotalPrice(panierService.calculerTotalPanier(cart));
         order.setStatutCommande(StatutCommande.EN_COURS);
+        order.setAdresseLivraison(checkoutForm.getAdresseLivraison());
+        order.setMoyenPaiement(checkoutForm.getMoyenPaiement());
+        order.setNumberOfArticles(cart.getElementsPanier().size());
+
         commandeService.saveCommande(order);
         panierService.clearCart(cart);
 
         return "redirect:/commande/" + order.getIdC();
-    }
-    @PostMapping("/increment")
-    public String addToCart(@RequestParam("dishId") Long dishId) {
-        panierService.addOrIncrementDish(dishId);
-        return "redirect:/dishes";
-    }
-
-    @PostMapping("/decrement")
-    public String decrementFromCart(@RequestParam("dishId") Long dishId) {
-        Panier cart = panierService.getActivePanier();
-        if(cart!= null){
-            panierService.decrementDish(dishId);
-        }
-        return "redirect:/dishes";
     }
 }

@@ -47,7 +47,7 @@ public class PanierServiceImpl implements PanierService {
 
         Panier cart = getActivePanier();
 
-        Optional<ElementPanier> existing = cart.getElementsPanier().stream().filter(e -> e.getPlat().getId() == dishId).findFirst();
+        Optional<ElementPanier> existing = cart.getElementsPanier().stream().filter(e -> e.getPlat().getId().equals(dishId)).findFirst();
         if(existing.isPresent()){
             ElementPanier elementPanier = existing.get();
             elementPanier.setQuantite(elementPanier.getQuantite() + 1);
@@ -55,6 +55,7 @@ public class PanierServiceImpl implements PanierService {
             ElementPanier newElement = new ElementPanier();
             newElement.setPlat(dish);
             newElement.setQuantite(1);
+            newElement.setPanier(cart);
             List<ElementPanier> NewList = cart.getElementsPanier();
             NewList.add(newElement);
             cart.setElementsPanier(NewList);
