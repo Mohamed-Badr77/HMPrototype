@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Dish Reviews</title>
+    <title>Critiques Plat</title>
 </head>
 <body>
 <h1 th:text="'Reviews for ' + ${plat.dishName}"></h1>
 
-<a th:href="@{'/dishes'}">Back to Dishes</a>
+<a th:href="@{'/dishes'}">Revenir aux plats</a>
 <br/>
-<a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">Add Review</a>
+<a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">Ajouter Note</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>Date</th>
-        <th>Rating</th>
-        <th>Delivery Status</th>
+        <th>Note</th>
+        <th>Etat de livraison</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -25,7 +25,7 @@
         <td th:text="${review.rating}">Rating</td>
         <td th:text="${review.delivery} ? 'Delivered' : 'Picked up'">Delivery Status</td>
         <td>
-            <a th:href="@{'/ReviewDish/edit/' + ${review.idA}}">Edit</a>
+            <a th:href="@{'/ReviewDish/edit/' + ${review.idA}}">Modifier</a>
         </td>
     </tr>
     </tbody>

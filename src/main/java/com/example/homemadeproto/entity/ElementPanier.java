@@ -15,20 +15,8 @@ public class ElementPanier {
     private Integer Quantite;
 
     @ManyToOne
-    @JoinColumn(name = "commande_id")
-    private Commande commande;
-
-    @ManyToOne
     @JoinColumn(name = "panier_id")
     private Panier panier;
-
-    public Commande getCommande() {
-        return commande;
-    }
-
-    public void setCommande(Commande commande) {
-        this.commande = commande;
-    }
 
     public Panier getPanier() {
         return panier;

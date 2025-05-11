@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Dish List</title>
+    <title>Liste des Plats</title>
 </head>
 <body>
-<h1>Dishes</h1>
+<h1>Plats</h1>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Rating</th>
-        <th>Preparation Time (min)</th>
-        <th>Price</th>
+        <th>Nom</th>
+        <th>Note</th>
+        <th>Temps de préparation (min)</th>
+        <th>Prix</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -25,13 +25,13 @@
         <td th:text="${dish.prepTimeMinutes}"></td>
         <td th:text="${dish.price}"></td>
         <td>
-            <a th:href="@{'/dishes/edit/' + ${dish.id}}">Edit</a> |
-            <a th:href="@{'/dishes/delete/' + ${dish.id}}">Delete</a> |
-            <a th:href="@{'/ReviewDish/dish/' + ${dish.id}}">View Reviews</a> |
-            <a th:href="@{'/ReviewDish/dish/' + ${dish.id} + '/add'}">Add Review</a>
+            <a th:href="@{'/dishes/edit/' + ${dish.id}}">Modifier</a> |
+            <a th:href="@{'/dishes/delete/' + ${dish.id}}">Supprimer</a> |
+            <a th:href="@{'/ReviewDish/dish/' + ${dish.id}}">Voir Critiques</a> |
+            <a th:href="@{'/ReviewDish/dish/' + ${dish.id} + '/add'}">Ajouter Critique</a>
             <form th:action="@{/panier/increment}" method="post" style="display:inline">
                 <input type="hidden" name="dishId" th:value="${dish.id}" />
-                <button type="submit">Add to Cart</button>
+                <button type="submit">Ajouter au panier</button>
             </form>
 
         </td>
@@ -41,9 +41,9 @@
 
 <br/>
 <form th:action="@{/panier}" method="get">
-    <button type="submit"> View Cart</button>
+    <button type="submit"> Voir Panier</button>
 </form>
-<a href="/dishes/add">➕ Add a Dish</a>
+<a href="/dishes/add">Ajouter un plat</a>
 
 </body>
 </html>

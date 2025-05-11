@@ -4,6 +4,7 @@ package com.example.homemadeproto.controller;
 import com.example.homemadeproto.DTO.CheckoutForm;
 import com.example.homemadeproto.entity.Commande;
 import com.example.homemadeproto.entity.ElementPanier;
+import com.example.homemadeproto.entity.LigneCommande;
 import com.example.homemadeproto.entity.Panier;
 import com.example.homemadeproto.service.CommandeService;
 import com.example.homemadeproto.service.ElementPanierService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/panier")
@@ -81,7 +83,15 @@ public class PanierController {
         }
 
         Commande order = new Commande();
-        order.setElements(new ArrayList<>(cart.getElementsPanier()));
+        List<LigneCommande> lignesCommande = cart.getElementsPanier().stream().map(ep -> {
+            LigneCommande ligne = new LigneCommande();
+            ligne.setNomPlat(ep.getPlat().getDishName());
+            ligne.setQuantite(ep.getQuantite());
+            ligne.setPrix(ep.getPlat().getPrice());
+            ligne.setCommande(order);
+            return ligne;
+        }).toList();
+        order.setLignesCommande(lignesCommande);
         order.setTotalPrice(panierService.calculerTotalPanier(cart));
         order.setStatutCommande(StatutCommande.EN_COURS);
         order.setAdresseLivraison(checkoutForm.getAdresseLivraison());

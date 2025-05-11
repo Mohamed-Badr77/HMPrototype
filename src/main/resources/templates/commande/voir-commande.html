@@ -17,9 +17,10 @@
 
 <h2>Plats commandés:</h2>
 <ul>
-    <li th:each="plat : ${commande.elements}">
-        <span th:text="${plat.plat.dishName}"></span> -
-        <span th:text="${plat.plat.price} + ' MAD'"></span>
+    <li th:each="plat : ${commande.lignesCommande}">
+        <span th:text="${plat.nomPlat}"></span> -
+        <span th:text="${plat.prix} + ' MAD'"></span> -
+        <span th:text="${plat.quantite} + ' articles'"></span>
     </li>
 </ul>
 

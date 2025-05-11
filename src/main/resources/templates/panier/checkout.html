@@ -4,13 +4,13 @@
     <title>Checkout</title>
 </head>
 <body>
-<h1>Confirm Your Order</h1>
+<h1>Confirmer votre Commande</h1>
 
 <form method="post" th:action="@{/panier/checkout}" th:object="${checkoutForm}">
-    <label>Delivery Address:</label><br>
+    <label>Addresse de Livraison:</label><br>
     <textarea th:field="*{adresseLivraison}" required></textarea><br><br>
 
-    <label>Payment Method:</label><br>
+    <label>Moyen de Paiement:</label><br>
     <select th:field="*{moyenPaiement}" required>
         <option th:each="m : ${moyens}" th:value="${m}" th:text="${m}"></option>
     </select><br><br>
@@ -31,11 +31,11 @@
 
     <p th:text="'Total: ' + ${total} + ' MAD'"></p>
 
-    <button type="submit">Place Order</button>
+    <button type="submit">Faire Commande</button>
 </form>
 
 <form th:action="@{/panier}" method="get">
-    <button type="submit"> Back to Cart</button>
+    <button type="submit"> Revenir au Panier</button>
 </form>
 </body>
 </html>

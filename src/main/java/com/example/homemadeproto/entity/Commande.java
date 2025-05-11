@@ -32,8 +32,8 @@ public class Commande {
     @Enumerated(EnumType.STRING)
     private MoyensPaiement moyenPaiement;
 
-    @OneToMany(mappedBy ="commande", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ElementPanier> elements;
+    @OneToMany(mappedBy ="commande", cascade = CascadeType.ALL)
+    private List<LigneCommande> lignesCommande;
 
     @PrePersist
     protected void onCreate(){
@@ -43,7 +43,7 @@ public class Commande {
     public Commande() {
     }
 
-    public Commande(Integer idC, int numberOfArticles, LocalDate dateCommande, float totalPrice, StatutCommande statutCommande, int tempsEstimeLivraison, String adresseLivraison, MoyensPaiement moyenPaiement, List<ElementPanier> elements) {
+    public Commande(Integer idC, int numberOfArticles, LocalDate dateCommande, float totalPrice, StatutCommande statutCommande, int tempsEstimeLivraison, String adresseLivraison, MoyensPaiement moyenPaiement, List<LigneCommande> lignesCommande) {
         this.idC = idC;
         this.numberOfArticles = numberOfArticles;
         this.dateCommande = dateCommande;
@@ -52,7 +52,7 @@ public class Commande {
         this.tempsEstimeLivraison = tempsEstimeLivraison;
         this.adresseLivraison = adresseLivraison;
         this.moyenPaiement = moyenPaiement;
-        this.elements = elements;
+        this.lignesCommande = lignesCommande;
     }
 
     public Integer getIdC() {
@@ -98,12 +98,12 @@ public class Commande {
         this.adresseLivraison = adresseLivraison;
     }
 
-    public List<ElementPanier> getElements() {
-        return elements;
+    public List<LigneCommande> getLignesCommande() {
+        return lignesCommande;
     }
 
-    public void setElements(List<ElementPanier> elements) {
-        this.elements = elements;
+    public void setLignesCommande(List<LigneCommande> lignesCommande) {
+        this.lignesCommande = lignesCommande;
     }
     public MoyensPaiement getMoyenPaiement() {
         return moyenPaiement;
