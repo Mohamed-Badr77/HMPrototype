@@ -35,6 +35,12 @@ public class Commande {
     @OneToMany(mappedBy ="commande", cascade = CascadeType.ALL)
     private List<LigneCommande> lignesCommande;
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_client")
+    private ClientProfile client;
+
     @PrePersist
     protected void onCreate(){
         this.dateCommande = LocalDate.now();
@@ -53,6 +59,14 @@ public class Commande {
         this.adresseLivraison = adresseLivraison;
         this.moyenPaiement = moyenPaiement;
         this.lignesCommande = lignesCommande;
+    }
+
+    public ClientProfile getClient() {
+        return client;
+    }
+
+    public void setClient(ClientProfile client) {
+        this.client = client;
     }
 
     public Integer getIdC() {

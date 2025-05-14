@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<h1>Welcome to Homemade!</h1>
+
+<div th:if="${user == null}">
+    <a href="/signin">S'authentifier</a> |
+    <a href="/signup">S'enregistrer</a>
+</div>
+
+<div th:if="${user != null}">
+    <p>Welcome, <span th:text="${user.nom}">User</span>!</p>
+    <a href="/profile">Voir Profile</a> |
+    <a href="/dishes">Voir plats</a> |
+    <a href="/logout">Se déconnecter</a>
+</div>
+</body>
+</html>

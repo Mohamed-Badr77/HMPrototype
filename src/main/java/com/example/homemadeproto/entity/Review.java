@@ -13,6 +13,8 @@ public abstract class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idA;
 
+    private String commentaire;
+
     private LocalDate creationDate;
     private float rating;
 
@@ -29,8 +31,9 @@ public abstract class Review {
     }
 
     public Review() {}
-    public Review(float rating) {
+    public Review(float rating, String commentaire) {
         this.rating = rating;
+        this.commentaire = commentaire;
     }
 
     public float getRating() {
@@ -55,5 +58,13 @@ public abstract class Review {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 }

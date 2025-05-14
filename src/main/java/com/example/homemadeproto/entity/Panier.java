@@ -19,6 +19,18 @@ public class Panier {
 
     private float fraisLivraison;
 
+    @OneToOne
+    private ClientProfile client;
+
+    public ClientProfile getClient() {
+        return client;
+    }
+
+    public void setClient(ClientProfile client) {
+        this.client = client;
+    }
+
+
     public Long getIdPanier() {
         return idPanier;
     }
