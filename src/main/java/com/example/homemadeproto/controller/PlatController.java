@@ -33,13 +33,9 @@ public class PlatController {
     @GetMapping
     public String listPlats(HttpSession session, Model model) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
-        if(user == null) {
-            return "redirect:/signin";
-        }
         List<Plat> plats = platService.getAllDishesWithRatings();
         model.addAttribute("dishes", plats);
         model.addAttribute("currentUser", user);
-
         return "dishes";
     }
 

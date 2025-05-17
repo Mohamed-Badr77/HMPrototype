@@ -9,7 +9,10 @@
 
 <a th:href="@{'/dishes'}">← Revenir aux plats</a>
 <br/>
-<a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">+ Ajouter une critique</a>
+<th:block th:if ="${user!= null}">
+    <a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">+ Ajouter une critique</a>
+</th:block>
+
 
 <table border="1">
     <thead>

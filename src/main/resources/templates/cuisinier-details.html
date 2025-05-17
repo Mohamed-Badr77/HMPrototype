@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détails du Cuisinier</title>
+</head>
+<body>
+<h1 th:text="${cuisinier.utilisateur.nom + ' ' + cuisinier.utilisateur.prenom}"></h1>
+
+<p><strong>Email :</strong> <span th:text="${cuisinier.utilisateur.email}"></span></p>
+<p><strong>Téléphone :</strong> <span th:text="${cuisinier.utilisateur.telephone}"></span></p>
+<p><strong>Adresse :</strong> <span th:text="${cuisinier.adresseCuisinier}"></span></p>
+<p><strong>Spécialité :</strong> <span th:text="${cuisinier.specialiteCulinaire}"></span></p>
+<p><strong>Note :</strong> <span th:text="${cuisinier.ratingCuisinier}"></span></p>
+
+<h2>Plats du cuisinier</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Note</th>
+        <th>Temps de préparation</th>
+        <th>Prix</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="plat : ${plats}">
+        <td th:text="${plat.dishName}"></td>
+        <td th:text="${plat.dishRating}"></td>
+        <td th:text="${plat.prepTimeMinutes} + ' min'"></td>
+        <td th:text="${plat.price} + ' DH'"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/dishes">← Retour à la liste des plats</a>
+</body>
+</html>

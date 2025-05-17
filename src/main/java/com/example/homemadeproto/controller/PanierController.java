@@ -6,7 +6,6 @@ import com.example.homemadeproto.entity.*;
 import com.example.homemadeproto.service.CommandeService;
 import com.example.homemadeproto.service.ElementPanierService;
 import com.example.homemadeproto.service.PanierService;
-import com.sun.net.httpserver.HttpsServer;
 import enums.MoyensPaiement;
 import enums.StatutCommande;
 import jakarta.servlet.http.HttpSession;
@@ -15,9 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("/panier")

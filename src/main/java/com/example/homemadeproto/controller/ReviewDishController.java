@@ -1,6 +1,7 @@
 package com.example.homemadeproto.controller;
 
 
+import com.example.homemadeproto.DAO.UtilisateurRepository;
 import com.example.homemadeproto.entity.Plat;
 import com.example.homemadeproto.entity.ReviewDish;
 import com.example.homemadeproto.entity.Utilisateur;
@@ -22,19 +23,23 @@ public class ReviewDishController {
 
     private final ReviewDishService reviewDishService;
     private final PlatService platService;
+    private final UtilisateurRepository utilisateurRepository;
 
     @Autowired
-    public ReviewDishController(ReviewDishService reviewDishService, PlatService platService) {
+    public ReviewDishController(ReviewDishService reviewDishService, PlatService platService, UtilisateurRepository utilisateurRepository) {
         this.reviewDishService = reviewDishService;
         this.platService = platService;
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     @GetMapping("/dish/{dishid}")
-    public String getReviewsByDish(@PathVariable Long dishid, Model model) {
+    public String getReviewsByDish(HttpSession session, @PathVariable Long dishid, Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
         Plat plat = platService.getDishById(dishid).orElseThrow(() -> new IllegalArgumentException("Invalid Dish Id  :" + dishid));
         List<ReviewDish> reviews = reviewDishService.findByDish(plat);
         model.addAttribute("plat", plat);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("user", user);
 
         return "reviewdish";
     }

@@ -26,16 +26,24 @@
         <td th:text="${dish.dishRating}"></td>
         <td th:text="${dish.prepTimeMinutes}"></td>
         <td th:text="${dish.price}"></td>
-        <td th:text="${dish.getCuisinier().getUtilisateur().getNom() +' '+ dish.getCuisinier().getUtilisateur().getPrenom()}"></td>
         <td>
-            <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/edit/' + ${dish.id}}">Modifier |</a>
-            <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/delete/' + ${dish.id}}">Supprimer |</a>
-            <a th:href="@{'/ReviewDish/dish/' + ${dish.id}}">Voir Critiques</a> |
-            <a th:if="${dish.cuisinier.utilisateur.userId != currentUser.userId}" th:href="@{'/ReviewDish/dish/' + ${dish.id} + '/add'}">Ajouter Critique</a>
-            <form th:if="${dish.cuisinier.utilisateur.userId != currentUser.userId}" th:action="@{/panier/increment}" method="post" style="display:inline">
-                <input type="hidden" name="dishId" th:value="${dish.id}" />
-                <button type="submit">Ajouter au panier</button>
-            </form>
+            <a th:href="@{'/cuisinier/' + ${dish.getCuisinier().getUtilisateur().getUserId()}}">
+                <span th:text="${dish.getCuisinier().getUtilisateur().getNom() + ' ' + dish.getCuisinier().getUtilisateur().getPrenom()}"></span>
+            </a>
+        </td>
+
+        <td>
+            <th:block th:if ="${currentUser != null and currentUser.getClientProfile() != null}">
+                <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/edit/' + ${dish.id}}">Modifier |</a>
+                <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/delete/' + ${dish.id}}">Supprimer |</a>
+                <a th:if="${dish.cuisinier.utilisateur.userId != currentUser.userId}" th:href="@{'/ReviewDish/dish/' + ${dish.id} + '/add'}">Ajouter Critique</a>
+                <form th:if="${dish.cuisinier.utilisateur.userId != currentUser.userId}" th:action="@{/panier/increment}" method="post" style="display:inline">
+                    <input type="hidden" name="dishId" th:value="${dish.id}" />
+                    <button type="submit">Ajouter au panier</button>
+                </form>
+            </th:block>
+            <a th:href="@{'/ReviewDish/dish/' + ${dish.id}}">Voir Critiques</a>
+
 
         </td>
     </tr>
@@ -43,9 +51,13 @@
 </table>
 
 <br/>
-<form th:action="@{/panier}" method="get">
-    <button type="submit"> Voir Panier</button>
-</form>
-<a th:if="${currentUser.getCuisinierProfile()!=null}" href="/dishes/add">Ajouter un plat</a>
+
+<th:block th:if ="${currentUser != null and currentUser.getClientProfile() != null}">
+    <form th:action="@{/panier}" method="get">
+        <button type="submit"> Voir Panier</button>
+    </form>
+    <a th:if="${currentUser.getCuisinierProfile()!=null}" href="/dishes/add">Ajouter un plat</a>
+</th:block>
+
 </body>
 </html>
