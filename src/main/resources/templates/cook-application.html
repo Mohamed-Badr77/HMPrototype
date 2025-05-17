@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Demande pour devenir Cuisinier</title>
+</head>
+<body>
+<h1>Devenir Cuisinier</h1>
+
+<form th:action="@{/CookApplication}" th:object="${cookApp}" method="post">
+    <div>
+        <label for="adresse">Adresse :</label>
+        <input type="text" id="adresse" th:field="*{adresse}" required>
+        <div th:if="${#fields.hasErrors('adresse')}" th:errors="*{adresse}"></div>
+    </div>
+
+    <div>
+        <label for="specialite">Spécialité culinaire :</label>
+        <input type="text" id="specialite" th:field="*{specialite}" required>
+        <div th:if="${#fields.hasErrors('specialite')}" th:errors="*{specialite}"></div>
+    </div>
+
+    <button type="submit">Soumettre la demande</button>
+</form>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.example.homemadeproto.service;
 
+import com.example.homemadeproto.entity.CuisinierProfile;
 import com.example.homemadeproto.entity.Plat;
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface PlatService {
     void deleteDish(Long id);
 
     List<Plat> getAllDishesWithRatings();
+
+    List<Plat> findDishesByCuisinier(CuisinierProfile cuisinierProfile);
 }

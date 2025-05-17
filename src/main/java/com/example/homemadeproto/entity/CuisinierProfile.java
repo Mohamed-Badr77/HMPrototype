@@ -15,7 +15,7 @@ public class CuisinierProfile {
     private Utilisateur utilisateur;
 
     private String adresseCuisinier;
-    private Boolean estVerfie = false;
+    private Boolean estVerifie = false;
     private float ratingCuisinier = 0.0F;
     private String specialiteCulinaire;
     private float gains = 0.0F;
@@ -63,12 +63,12 @@ public class CuisinierProfile {
         this.adresseCuisinier = adresseCuisinier;
     }
 
-    public Boolean getEstVerfie() {
-        return estVerfie;
+    public Boolean getEstVerifie() {
+        return estVerifie;
     }
 
-    public void setEstVerfie(Boolean estVerfie) {
-        this.estVerfie = estVerfie;
+    public void setEstVerifie(Boolean estVerifie) {
+        this.estVerifie = estVerifie;
     }
 
     public float getRatingCuisinier() {
@@ -77,5 +77,13 @@ public class CuisinierProfile {
 
     public void setRatingCuisinier(float ratingCuisinier) {
         this.ratingCuisinier = ratingCuisinier;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 }

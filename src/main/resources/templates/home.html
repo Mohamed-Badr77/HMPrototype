@@ -15,6 +15,7 @@
     <p>Welcome, <span th:text="${user.nom}">User</span>!</p>
     <a href="/profile">Voir Profile</a> |
     <a href="/dishes">Voir plats</a> |
+    <a th:if="${user.getCuisinierProfile()==null} "href="CookApplication">Devenir Cuisinier |</a>
     <a href="/logout">Se déconnecter</a>
 </div>
 </body>

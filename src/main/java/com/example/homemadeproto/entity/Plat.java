@@ -14,6 +14,45 @@ public class Plat {
     @Size(min=2,message="Name must have at least 2 characters")
     private String dishName;
 
+    private float dishRating;
+
+    @NotNull(message = "Prix requis")
+    private float price;
+
+    @Min(value = 1, message = "Prep time must at least be 1 minute")
+    private int prepTimeMinutes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cuisinier_id", nullable = false)
+    private CuisinierProfile cuisinier;
+
+    public Plat() {}
+
+    public Plat(String DishName, float DishRating, float Price, int PrepTimeMinutes, CuisinierProfile cuisinier) {
+        this.dishName = DishName;
+        this.dishRating = DishRating;
+        this.price = Price;
+        this.prepTimeMinutes = PrepTimeMinutes;
+        this.cuisinier = cuisinier;
+    }
+
+
+    public void setId(Long id) {
+        this.idP = id;
+    }
+
+    public Long getId() {
+        return idP;
+    }
+
+    public CuisinierProfile getCuisinier() {
+        return cuisinier;
+    }
+
+    public void setCuisinier(CuisinierProfile cuisinier) {
+        this.cuisinier = cuisinier;
+    }
+
     public float getDishRating() {
         return dishRating;
     }
@@ -44,30 +83,5 @@ public class Plat {
 
     public void setPrepTimeMinutes(int prepTimeMinutes) {
         this.prepTimeMinutes = prepTimeMinutes;
-    }
-
-    private float dishRating;
-
-    @NotNull(message = "Prix requis")
-    private float price;
-
-    @Min(value = 1, message = "Prep time must at least be 1 minute")
-    private int prepTimeMinutes;
-
-    public Plat() {}
-
-    public Plat(String DishName, float DishRating, float Price, int PrepTimeMinutes) {
-        this.dishName = DishName;
-        this.dishRating = DishRating;
-        this.price = Price;
-    }
-
-
-    public void setId(Long id) {
-        this.idP = id;
-    }
-
-    public Long getId() {
-        return idP;
     }
 }

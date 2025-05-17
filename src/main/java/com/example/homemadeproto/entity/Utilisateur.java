@@ -105,6 +105,30 @@ public class Utilisateur {
         this.roles = roles;
     }
 
+    public ClientProfile getClientProfile() {
+        return clientProfile;
+    }
+
+    public void setClientProfile(ClientProfile clientProfile) {
+        this.clientProfile = clientProfile;
+    }
+
+    public CuisinierProfile getCuisinierProfile() {
+        return cuisinierProfile;
+    }
+
+    public void setCuisinierProfile(CuisinierProfile cuisinierProfile) {
+        this.cuisinierProfile = cuisinierProfile;
+    }
+
+    public LivreurProfile getLivreurProfile() {
+        return livreurProfile;
+    }
+
+    public void setLivreurProfile(LivreurProfile livreurProfile) {
+        this.livreurProfile = livreurProfile;
+    }
+
     public void addRole(Role role) {
         this.roles.add(role);
     }

@@ -63,7 +63,7 @@ public class AuthController {
         if (optionalUser.isPresent()) {
             Utilisateur user = optionalUser.get();
             session.setAttribute("user", user);
-            return "redirect:/"; // or /profile
+            return "redirect:/";
         } else {
             model.addAttribute("error", "Invalid email or password");
             return "signin";

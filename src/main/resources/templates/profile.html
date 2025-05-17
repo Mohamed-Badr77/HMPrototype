@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profil Utilisateur</title>
+</head>
+<body>
+
+<h1>Profil de <span th:text="${user.prenom + ' ' + user.nom}"></span></h1>
+<p>Email : <span th:text="${user.email}"></span></p>
+<p>Téléphone : <span th:text="${user.telephone}"></span></p>
+<p>Date de création : <span th:text="${user.dateCreation}"></span></p>
+
+<hr/>
+
+<!-- Cuisinier Info -->
+<div th:if="${cuisinierProfile != null}">
+    <h2>Profil Cuisinier</h2>
+    <p>Adresse : <span th:text="${cuisinierProfile.adresseCuisinier}"></span></p>
+    <p>Spécialité : <span th:text="${cuisinierProfile.specialiteCulinaire}"></span></p>
+    <p>Vérifié : <span th:text="${cuisinierProfile.estVerifie ? 'Oui' : 'Non'}"></span></p>
+    <p>Note : <span th:text="${cuisinierProfile.ratingCuisinier}"></span></p>
+    <p>Gains : <span th:text="${cuisinierProfile.gains} + ' DH'"></span></p>
+
+    <h3>Liste des Plats</h3>
+    <ul>
+        <li th:each="plat : ${plats}">
+            <b th:text="${plat.dishName}"></b> - <span th:text="${plat.price} + ' DH'"></span>
+        </li>
+    </ul>
+</div>
+
+<!-- Client Info -->
+<div th:if="${clientProfile != null}">
+    <h2>Profil Client</h2>
+    <p>Adresse : <span th:text="${clientProfile.adresseClient}"></span></p>
+
+    <h3>Historique des Commandes</h3>
+    <ul>
+        <li th:each="commande : ${commandes}">
+            Commande #<span th:text="${commande.id}"></span> -
+            Date : <span th:text="${commande.dateCommande}"></span> -
+            Montant : <span th:text="${commande.total} + ' DH'"></span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

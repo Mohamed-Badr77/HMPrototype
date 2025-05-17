@@ -19,7 +19,7 @@ public class ClientProfile {
 
     private String adresseClient;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Commande> commandes;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -2,6 +2,7 @@ package com.example.homemadeproto.service;
 
 import com.example.homemadeproto.DAO.PlatRepository;
 import com.example.homemadeproto.DAO.ReviewDishRepository;
+import com.example.homemadeproto.entity.CuisinierProfile;
 import com.example.homemadeproto.entity.Plat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,10 @@ public class PlatServiceImpl implements PlatService {
             dish.setDishRating(avg!=null ? avg.floatValue() : 0f);
         }
         return dishes;
+    }
+
+    @Override
+    public List<Plat> findDishesByCuisinier(CuisinierProfile cuisinierProfile){
+        return platRepository.findByCuisinier(cuisinierProfile);
     }
 }
