@@ -5,7 +5,9 @@ import enums.Role;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +24,7 @@ public class Utilisateur {
     private String password;
     private LocalDate dateCreation;
 
+
     @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL)
     private ClientProfile clientProfile;
 
@@ -35,11 +38,21 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany
+    private List<Review> reviews = new ArrayList<>();
+
     @PrePersist
     public void onCreate(){
         this.dateCreation = LocalDate.now();
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public Long getUserId() {
         return userId;

@@ -1,24 +1,50 @@
-<!-- templates/add-reviewdish.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Review</title>
+    <title>Ajouter une critique</title>
 </head>
 <body>
-<h1>Add Review for Dish</h1>
+<h1>Ajouter une critique pour <span th:text="${reviewDish.dish.dishName}">Dish Name</span></h1>
 
-<form th:action="@{'/ReviewDish/dish/' + ${reviewDish.dish.id} + '/add'}" th:object="${reviewDish}" method="post">
-    <label for="rating">Rating:</label>
-    <input type="number" step="0.1" th:field="*{rating}" required min="0" max="5" id="rating"/>
+<form th:action="@{'/ReviewDish/dish/' + ${reviewDish.dish.id} + '/add'}"
+      th:object="${reviewDish}" method="post">
+
+    <label for="rating">Note (0-5):</label>
+    <input type="number" id="rating" th:field="*{rating}" step="0.1" min="0" max="5" required />
     <br/>
-    <label>Delivery Method:</label>
-    <input type="radio" th:field="*{delivery}" value="true" id="delivered" required/>
-    <label for="delivered">Delivered</label>
-    <input type="radio" th:field="*{delivery}" value="false" id="pickup" required/>
-    <label for="pickup">Pickup</label>
-    <button type="submit">Submit</button>
+
+    <label for="serviceRating">Note du service (0-5):</label>
+    <input type="number" id="serviceRating" th:field="*{serviceRating}" step="0.1" min="0" max="5" required />
+    <br/>
+
+    <label for="portionSize">Taille de portion:</label>
+    <select id="portionSize" th:field="*{portionSize}" required>
+        <option th:each="size : ${T(enums.PortionSize).values()}"
+                th:value="${size}" th:text="${size}">Size</option>
+    </select>
+    <br/>
+
+    <label>Livraison:</label>
+    <input type="radio" id="delivered" th:field="*{delivery}" value="true" required />
+    <label for="delivered">Livré</label>
+    <input type="radio" id="pickup" th:field="*{delivery}" value="false" required />
+    <label for="pickup">À emporter</label>
+    <br/>
+
+    <label>Satisfait du prix?</label>
+    <input type="radio" id="priceYes" th:field="*{priceSatisfaction}" value="true" required />
+    <label for="priceYes">Oui</label>
+    <input type="radio" id="priceNo" th:field="*{priceSatisfaction}" value="false" required />
+    <label for="priceNo">Non</label>
+    <br/>
+
+    <label for="commentaire">Commentaire:</label><br/>
+    <textarea id="commentaire" th:field="*{commentaire}" rows="4" cols="50" placeholder="Votre avis ici..."></textarea>
+    <br/>
+
+    <button type="submit">Soumettre la critique</button>
 </form>
 
-<a th:href="@{'/ReviewDish/dish/' + ${reviewDish.dish.id}}">Cancel</a>
+<a th:href="@{'/ReviewDish/dish/' + ${reviewDish.dish.id}}">Annuler</a>
 </body>
 </html>

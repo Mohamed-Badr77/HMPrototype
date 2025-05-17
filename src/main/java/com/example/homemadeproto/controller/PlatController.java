@@ -1,5 +1,6 @@
 package com.example.homemadeproto.controller;
 
+import com.example.homemadeproto.DAO.CuisinierProfileRepository;
 import com.example.homemadeproto.entity.CuisinierProfile;
 import com.example.homemadeproto.entity.Plat;
 import com.example.homemadeproto.entity.Utilisateur;
@@ -20,10 +21,13 @@ import java.util.List;
 public class PlatController {
 
     private final PlatService platService;
+    private final CuisinierProfileRepository cuisinierProfileRepository;
 
     @Autowired
-    public PlatController(PlatService platService) {
+    public PlatController(PlatService platService, CuisinierProfileRepository cuisinierProfileRepository) {
+
         this.platService = platService;
+        this.cuisinierProfileRepository = cuisinierProfileRepository;
     }
 
     @GetMapping
@@ -49,7 +53,7 @@ public class PlatController {
             model.addAttribute("plat", new Plat());
             return "add-dish";
         }else{
-            return "unauthorized";
+            return "redirect:/unauthorized";
         }
     }
 
@@ -65,7 +69,13 @@ public class PlatController {
         if (bindingResult.hasErrors()) {
             return "add-dish";
         }
-        plat.setCuisinier(user.getCuisinierProfile());
+
+        Long cuisinierProfileId = user.getCuisinierProfile().getIdCuisinier();
+        CuisinierProfile managedProfile = cuisinierProfileRepository.findById(cuisinierProfileId).orElse(null);
+        if(managedProfile == null) {
+            return "redirect:/unauthorized";
+        }
+        plat.setCuisinier(managedProfile);
         platService.saveDish(plat);
         return "redirect:/dishes";
     }

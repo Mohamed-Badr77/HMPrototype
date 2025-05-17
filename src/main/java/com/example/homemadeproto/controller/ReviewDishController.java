@@ -3,8 +3,10 @@ package com.example.homemadeproto.controller;
 
 import com.example.homemadeproto.entity.Plat;
 import com.example.homemadeproto.entity.ReviewDish;
+import com.example.homemadeproto.entity.Utilisateur;
 import com.example.homemadeproto.service.PlatService;
 import com.example.homemadeproto.service.ReviewDishService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,43 +39,80 @@ public class ReviewDishController {
         return "reviewdish";
     }
     @GetMapping("/dish/{dishid}/add")
-    public String showAddReviewForm(@PathVariable Long dishid,Model model) {
+    public String showAddReviewForm(HttpSession session, @PathVariable Long dishid, Model model) {
         Plat plat = platService.getDishById(dishid).orElseThrow(() -> new IllegalArgumentException("Invalid Dish Id  :" + dishid));
-        ReviewDish reviewDish = new ReviewDish();
-        reviewDish.setDish(plat);
-        model.addAttribute("reviewDish", reviewDish);
-        return "add-reviewdish";
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/signin";
+        }
+        if(!plat.getCuisinier().getUtilisateur().getUserId().equals(user.getUserId())) {
+            ReviewDish reviewDish = new ReviewDish();
+            reviewDish.setDish(plat);
+            model.addAttribute("reviewDish", reviewDish);
+            return "add-reviewdish";
+        }else{
+            return "unauthorized";
+        }
+
     }
 
     @PostMapping("/dish/{dishid}/add")
-    public String addReview(@PathVariable Long dishid, @ModelAttribute("review") @Valid ReviewDish reviewDish, BindingResult bindingResult, Model model) {
+    public String addReview(HttpSession session, @PathVariable Long dishid, @ModelAttribute("review") @Valid ReviewDish reviewDish, BindingResult bindingResult, Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/signin";
+        }
         if(bindingResult.hasErrors()) {
             return "add-reviewdish";
         }
         Plat plat = platService.getDishById(dishid).orElseThrow(()-> new IllegalArgumentException("Invalid Dish Id  :" + dishid));
-        reviewDish.setDish(plat);
-        reviewDishService.save(reviewDish);
-        return "redirect:/ReviewDish/dish/"+dishid;
-    }
+        if(plat.getCuisinier().getUtilisateur().getUserId().equals(user.getUserId())) {
+           return "unauthorized";
+        }else{
+            reviewDish.setDish(plat);
+            reviewDish.setUtilisateur(user);
+            reviewDishService.save(reviewDish);
+            return "redirect:/ReviewDish/dish/"+dishid;
+        }
+        }
+
 
     @GetMapping("/edit/{reviewid}")
-    public String showEditReviewForm(@PathVariable Long reviewid, Model model) {
+    public String showEditReviewForm(HttpSession session, @PathVariable Long reviewid, Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/signin";
+        }
         ReviewDish review = reviewDishService.findReviewById(reviewid).orElseThrow(()-> new IllegalArgumentException("Invalid review ID : " + reviewid));
-        model.addAttribute("review", review);
-        return "edit-reviewdish";
+        if(!review.getUtilisateur().getUserId().equals(user.getUserId())) {
+            return "unauthorized";
+        }else{
+            model.addAttribute("review", review);
+            return "edit-reviewdish";
+        }
+
     }
 
     @PostMapping("/edit/{reviewid}")
 
-    public String updateReview(@PathVariable("reviewid") Long reviewid, @ModelAttribute("review") @Valid ReviewDish review, BindingResult bindingResult) {
+    public String updateReview(HttpSession session, @PathVariable("reviewid") Long reviewid, @ModelAttribute("reviewDish") @Valid ReviewDish review, BindingResult bindingResult) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/signin";
+        }
         if(bindingResult.hasErrors()) {
             return "edit-reviewdish";
         }
         ReviewDish existingReview = reviewDishService.findReviewById(reviewid).orElseThrow(()-> new IllegalArgumentException("Invalid review ID : " + reviewid));
-        review.setDish(existingReview.getDish());
-        review.setIdA(reviewid);
-        reviewDishService.save(review);
-        return "redirect:/ReviewDish/dish/"+review.getDish().getId();
+        if(!existingReview.getUtilisateur().getUserId().equals(user.getUserId())) {
+            return "unauthorized";
+        }else{
+            review.setDish(existingReview.getDish());
+            review.setIdA(reviewid);
+            reviewDishService.save(review);
+            return "redirect:/ReviewDish/dish/"+review.getDish().getId();
+        }
+
     }
 
 

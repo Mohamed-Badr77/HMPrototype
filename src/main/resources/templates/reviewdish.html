@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Critiques Plat</title>
+    <title>Critiques du plat</title>
 </head>
 <body>
-<h1 th:text="'Reviews for ' + ${plat.dishName}"></h1>
 
-<a th:href="@{'/dishes'}">Revenir aux plats</a>
+<h1>Critiques pour <span th:text="${plat.dishName}">Nom du plat</span></h1>
+
+<a th:href="@{'/dishes'}">← Revenir aux plats</a>
 <br/>
-<a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">Ajouter Note</a>
+<a th:href="@{'/ReviewDish/dish/' + ${plat.id} + '/add'}">+ Ajouter une critique</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>Date</th>
         <th>Note</th>
-        <th>Etat de livraison</th>
+        <th>Note du service</th>
+        <th>Taille de portion</th>
+        <th>Livraison</th>
+        <th>Satisfait du prix</th>
+        <th>Commentaire</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="review : ${reviews}">
-        <td th:text="${review.creationDate}">Date</td>
-        <td th:text="${review.rating}">Rating</td>
-        <td th:text="${review.delivery} ? 'Delivered' : 'Picked up'">Delivery Status</td>
+        <td th:text="${#temporals.format(review.creationDate, 'dd/MM/yyyy')}">Date</td>
+        <td th:text="${review.rating}">Note</td>
+        <td th:text="${review.serviceRating}">Note du service</td>
+        <td th:text="${review.portionSize}">Taille de portion</td>
+        <td th:text="${review.delivery} ? 'Livré' : 'À emporter'">Livraison</td>
+        <td th:text="${review.priceSatisfaction} ? 'Oui' : 'Non'">Satisfait du prix</td>
+        <td th:text="${review.commentaire}">Commentaire</td>
         <td>
             <a th:href="@{'/ReviewDish/edit/' + ${review.idA}}">Modifier</a>
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

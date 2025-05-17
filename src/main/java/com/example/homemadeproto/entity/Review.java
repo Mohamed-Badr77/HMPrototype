@@ -2,6 +2,7 @@ package com.example.homemadeproto.entity;
 
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -15,8 +16,14 @@ public abstract class Review {
 
     private String commentaire;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
+
     private float rating;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "utilisateur_id", nullable = false)
+    private Utilisateur utilisateur;
 
     @PrePersist
     protected void onCreate(){
@@ -34,6 +41,14 @@ public abstract class Review {
     public Review(float rating, String commentaire) {
         this.rating = rating;
         this.commentaire = commentaire;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     public float getRating() {
