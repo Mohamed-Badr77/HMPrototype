@@ -26,7 +26,7 @@
         <td th:text="${dish.dishRating}"></td>
         <td th:text="${dish.prepTimeMinutes}"></td>
         <td th:text="${dish.price}"></td>
-        <td th:text="${dish.getCuisinier().getUtilisateur().getNom() + dish.getCuisinier().getUtilisateur().getPrenom()}"></td>
+        <td th:text="${dish.getCuisinier().getUtilisateur().getNom() +' '+ dish.getCuisinier().getUtilisateur().getPrenom()}"></td>
         <td>
             <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/edit/' + ${dish.id}}">Modifier |</a>
             <a th:if="${dish.cuisinier.utilisateur.userId == currentUser.userId}" th:href="@{'/dishes/delete/' + ${dish.id}}">Supprimer |</a>

@@ -37,9 +37,9 @@
     <h3>Historique des Commandes</h3>
     <ul>
         <li th:each="commande : ${commandes}">
-            Commande #<span th:text="${commande.id}"></span> -
+            Commande N° <span th:text="${commande.idC}"></span> -
             Date : <span th:text="${commande.dateCommande}"></span> -
-            Montant : <span th:text="${commande.total} + ' DH'"></span>
+            Montant : <span th:text="${commande.totalPrice} + ' DH'"></span>
         </li>
     </ul>
 </div>

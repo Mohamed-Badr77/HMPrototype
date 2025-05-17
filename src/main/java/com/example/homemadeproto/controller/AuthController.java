@@ -39,6 +39,7 @@ public class AuthController {
         authService.registerClient(
                 signupRequest.getNom(),
                 signupRequest.getPrenom(),
+                signupRequest.getAdresse(),
                 signupRequest.getEmail(),
                 signupRequest.getTelephone(),
                 signupRequest.getPassword()

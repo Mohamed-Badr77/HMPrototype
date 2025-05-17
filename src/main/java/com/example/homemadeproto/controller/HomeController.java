@@ -85,7 +85,12 @@ public class HomeController {
 
     @GetMapping("/profile")
     public String profileLink(HttpSession session,Model model){
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Utilisateur sessionuser = (Utilisateur) session.getAttribute("user");
+
+        if(sessionuser == null) {
+            return "redirect:/signin";
+        }
+        Utilisateur user = utilisateurRepository.findById(sessionuser.getUserId()).orElse(null);
         if(user == null) {
             return "redirect:/signin";
         }
@@ -95,7 +100,8 @@ public class HomeController {
             model.addAttribute("plats", platService.findDishesByCuisinier(user.getCuisinierProfile()));
             model.addAttribute("clientProfile", user.getClientProfile());
             model.addAttribute("commandes",user.getClientProfile().getCommandes());
-        } else if (user.hasRole(Role.CLIENT)) {
+        }
+        if (user.hasRole(Role.CLIENT)) {
             model.addAttribute("clientProfile", user.getClientProfile());
             model.addAttribute("commandes",user.getClientProfile().getCommandes());
         }

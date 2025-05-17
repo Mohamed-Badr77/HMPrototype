@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService{
         this.panierRepository = panierRepository;
     }
 
-    public void registerClient(String nom, String prenom, String email, String telephone, String password){
+    public void registerClient(String nom, String prenom,String adresse, String email, String telephone, String password){
         Utilisateur user = new Utilisateur();
         user.setNom(nom);
         user.setPrenom(prenom);
@@ -34,12 +34,16 @@ public class AuthServiceImpl implements AuthService{
 
         utilisateurRepository.save(user);
 
+
         ClientProfile client = new ClientProfile();
         client.setUtilisateur(user);
+        client.setAdresseClient(adresse);
 
         Panier panier = new Panier();
         panier.setFraisLivraison(0);
         panier.setClient(client);
+        panier.setClient(client);
+        panierRepository.save(panier);
 
         client.setPanier(panier);
 

@@ -3,6 +3,7 @@ package com.example.homemadeproto.DTO;
 public class SignupRequest {
     private String nom;
     private String prenom;
+    private String adresse;
     private String email;
     private String telephone;
     private String password;
@@ -45,5 +46,11 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getAdresse() {
+        return this.adresse;
+    }
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
 }

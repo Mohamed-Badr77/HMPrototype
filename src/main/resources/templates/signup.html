@@ -8,9 +8,10 @@
 <form th:action="@{/signup}" method="post" th:object="${signupRequest}">
     <label>Nom: <input type="text" th:field="*{nom}" /></label><br>
     <label>Prenom: <input type="text" th:field="*{prenom}" /></label><br>
+    <label>Adresse: <input type="text" th:field="*{adresse}" /></label><br>
     <label>Email: <input type="email" th:field="*{email}" /></label><br>
     <label>Telephone: <input type="text" th:field="*{telephone}" /></label><br>
-    <label>Mot de pAsse: <input type="password" th:field="*{password}" /></label><br>
+    <label>Mot de Passe: <input type="password" th:field="*{password}" /></label><br>
     <button type="submit">S'enregistrer</button>
 </form>
 </body>

@@ -2,15 +2,14 @@ package com.example.homemadeproto.controller;
 
 
 import com.example.homemadeproto.DTO.CheckoutForm;
-import com.example.homemadeproto.entity.Commande;
-import com.example.homemadeproto.entity.ElementPanier;
-import com.example.homemadeproto.entity.LigneCommande;
-import com.example.homemadeproto.entity.Panier;
+import com.example.homemadeproto.entity.*;
 import com.example.homemadeproto.service.CommandeService;
 import com.example.homemadeproto.service.ElementPanierService;
 import com.example.homemadeproto.service.PanierService;
+import com.sun.net.httpserver.HttpsServer;
 import enums.MoyensPaiement;
 import enums.StatutCommande;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +34,12 @@ public class PanierController {
     }
 
     @GetMapping
-    public String showPanier(Model model) {
-        Panier cart = panierService.getActivePanier();
+    public String showPanier(HttpSession session, Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user == null) {
+            return "redirect:/signin";
+        }
+        Panier cart = panierService.getActivePanier(user.getUserId());
         List<ElementPanier> elements = cart.getElementsPanier();
 
         double total = elements.stream().mapToDouble(e->e.getPlat().getPrice()*e.getQuantite()).sum();
@@ -47,23 +50,35 @@ public class PanierController {
         return "panier/voir-panier";
     }
     @PostMapping("/increment")
-    public String addToCart(@RequestParam("dishId") Long dishId) {
-        panierService.addOrIncrementDish(dishId);
+    public String addToCart(HttpSession session, @RequestParam("dishId") Long dishId) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user==null){
+            return "redirect:/signin";
+        }
+        panierService.addOrIncrementDish(dishId, user.getUserId());
         return "redirect:/panier";
     }
 
     @PostMapping("/decrement")
-    public String decrementFromCart(@RequestParam("dishId") Long dishId) {
-        Panier cart = panierService.getActivePanier();
+    public String decrementFromCart(HttpSession session, @RequestParam("dishId") Long dishId) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user==null){
+            return "redirect:/signin";
+        }
+        Panier cart = panierService.getActivePanier(user.getUserId());
         if(cart!= null){
-            panierService.decrementDish(dishId);
+            panierService.decrementDish(dishId,user.getUserId());
         }
         return "redirect:/panier";
     }
 
     @GetMapping("/checkout")
-    public String afficherCheckoutPanier(Model model) {
-        Panier cart = panierService.getActivePanier();
+    public String afficherCheckoutPanier(HttpSession session, Model model) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user==null){
+            return "redirect:/signin";
+        }
+        Panier cart = panierService.getActivePanier(user.getUserId());
         if(cart == null || cart.getElementsPanier() == null || cart.getElementsPanier().isEmpty()) {
             return "redirect:/panier";
         }
@@ -76,12 +91,15 @@ public class PanierController {
     }
 
     @PostMapping("/checkout")
-    public String traiterSoumissionCheckoutPanier(@ModelAttribute CheckoutForm checkoutForm) {
-        Panier cart = panierService.getActivePanier();
+    public String traiterSoumissionCheckoutPanier(HttpSession session, @ModelAttribute CheckoutForm checkoutForm) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if(user==null){
+            return "redirect:/signin";
+        }
+        Panier cart = panierService.getActivePanier(user.getUserId());
         if(cart == null || cart.getElementsPanier() == null || cart.getElementsPanier().isEmpty()) {
             return "redirect:/panier";
         }
-
         Commande order = new Commande();
         List<LigneCommande> lignesCommande = cart.getElementsPanier().stream().map(ep -> {
             LigneCommande ligne = new LigneCommande();
@@ -97,6 +115,7 @@ public class PanierController {
         order.setAdresseLivraison(checkoutForm.getAdresseLivraison());
         order.setMoyenPaiement(checkoutForm.getMoyenPaiement());
         order.setNumberOfArticles(cart.getElementsPanier().size());
+        order.setClient(user.getClientProfile());
 
         commandeService.saveCommande(order);
         panierService.clearCart(cart);
